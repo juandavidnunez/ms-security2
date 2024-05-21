@@ -90,4 +90,21 @@ public User matchUserRole(@PathVariable String user_id,@PathVariable String role
         return null;
     }
 }
+
+@PutMapping("{user_id}/role")
+public User unMatchUserRole(@PathVariable String user_id){
+    User theActualUser = this.theUserRepository
+    .findById(user_id)
+    .orElse(null);
+   
+    
+    if(theActualUser!=null){
+        theActualUser.setRole(null);
+    
+    return this.theUserRepository.save(theActualUser);
+    }
+    else{
+        return null;
+    }
+}
 }
