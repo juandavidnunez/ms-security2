@@ -1,5 +1,6 @@
 package com.mssecurity.mssecurity.Controllers;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +20,20 @@ import com.mssecurity.mssecurity.Models.Role;
 import com.mssecurity.mssecurity.Models.User;
 import com.mssecurity.mssecurity.Repositories.RoleRepository;
 import com.mssecurity.mssecurity.Repositories.UserRepository;
+import com.mssecurity.mssecurity.Services.EncryptionService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 
 public class UserController {
 @Autowired
 private UserRepository theUserRepository;
 @Autowired
 private RoleRepository theRoleRepository;
+@Autowired
+private EncryptionService encryptionService;
+
 @GetMapping("")
 public List<User> index(){
     return this.theUserRepository.findAll();
@@ -36,6 +41,7 @@ public List<User> index(){
 @ResponseStatus(HttpStatus.CREATED)
 @PostMapping
 public User store(@RequestBody User newUser){
+    newUser.setPassword(encryptionService.convertSHA256(newUser.getPassword()));
   return this.theUserRepository.save(newUser);
 }
 @GetMapping("{id}")
@@ -107,4 +113,5 @@ public User unMatchUserRole(@PathVariable String user_id){
         return null;
     }
 }
+
 }

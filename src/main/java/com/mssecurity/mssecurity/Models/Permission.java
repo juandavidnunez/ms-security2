@@ -1,8 +1,8 @@
 package com.mssecurity.mssecurity.Models;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Document
@@ -11,14 +11,14 @@ public class Permission {
     private String _id;
     private String url;
     private String method;
-    private String menuItem;
 
 
-    public Permission(String url, String method, String menuItem) {
+    public Permission(String url, String method) {
         this.url = url;
         this.method = method;
-        this.menuItem = menuItem;
     }
+
+
 
     public String get_id() {
         return _id;
@@ -32,10 +32,6 @@ public class Permission {
         return method;
     }
 
-    public String getMenuItems(){
-        return menuItem;
-    }
-
     public void setUrl(String url) {
         this.url = url;
     }
@@ -44,7 +40,7 @@ public class Permission {
         this.method = method;
     }
 
-    public void setMenuItems(String menuItems){
-        this.menuItem = menuItems;
-    }
+
+
+
 }
