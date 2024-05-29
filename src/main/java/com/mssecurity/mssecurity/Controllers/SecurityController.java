@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/public/security")
+@RequestMapping("/public/security")
 
 public class SecurityController {
     @Autowired

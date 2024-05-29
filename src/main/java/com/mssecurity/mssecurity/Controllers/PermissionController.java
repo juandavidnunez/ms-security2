@@ -23,7 +23,7 @@ import com.mssecurity.mssecurity.Repositories.PermissionRepository;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/permissions")
+@RequestMapping("/permissions")
 public class PermissionController {
     @Autowired
     private PermissionRepository thePermissionRepository;
