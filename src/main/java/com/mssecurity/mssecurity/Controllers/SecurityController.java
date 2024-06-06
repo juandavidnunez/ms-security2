@@ -1,5 +1,7 @@
 package com.mssecurity.mssecurity.Controllers;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,20 +29,28 @@ private JwtService jwtService;
 @Autowired
 private EncryptionService encryptionService;
 @PostMapping("login")
-public String login(@RequestBody User theUser, final HttpServletResponse response) throws IOException{
+public HashMap<String,Object> login(@RequestBody User theUser, final HttpServletResponse response) throws IOException{
+    
+    HashMap<String,Object> theRespone=new HashMap<>();
     String token="";
     User actualUser=this.thUserRepository.getUserByEmail(theUser.getEmail());
     if(actualUser!=null && actualUser.getPassword().equals(encryptionService.convertSHA256(theUser.getPassword()))){
         token=jwtService.generateToken(actualUser);
+        actualUser.setPassword("");
+        theRespone.put("token",token);
+        theRespone.put("user",actualUser);
+              return theRespone;
     }else{
         try {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+
         } catch (java.io.IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+
         }
     }
-    return token;
+    return theRespone;
+
 }
 
 }
